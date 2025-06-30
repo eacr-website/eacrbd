@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EACR Services</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll due to fixed elements if any issues */
+        }
+        /* Custom gradient for the banner */
+        .banner-gradient {
+            background: linear-gradient(to right, #EF4444, #FFFFFF, #22C55E); /* Red, White, Green */
+        }
+        /* Page background gradient (less green) */
+        .page-bg-gradient {
+            background: linear-gradient(to bottom, #D1FAE5, #ECFDF5); /* Lighter green shades */
+        }
+        /* Dropdown menu styling */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            top: 100%; /* Position below the parent button */
+            left: 0;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+            color: #22C55E;
+        }
+        /* Active nav item styling */
+        .nav-item.active {
+            font-weight: 600;
+            color: #22C55E; /* Highlight active link */
+        }
+
+        /* CV Modal Styling */
+        .cv-modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cv-modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto; /* Scroll for long CVs */
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* Responsive adjustments for overall layout */
+        @media (max-width: 768px) {
+            .nav-buttons-container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.5rem;
+            }
+            .nav-buttons-container > div {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            .dropdown-menu {
+                position: relative; /* Make dropdown flow with content on small screens */
+                width: 100%;
+                box-shadow: none;
+            }
+            .main-content-area {
+                flex-direction: column; /* Stack columns on small screens */
+                padding: 0;
+            }
+            .left-strip, .right-strip {
+                width: 100%;
+                height: 0.5rem; /* Make them thin strips on top/bottom */
+                order: -1; /* Place green strip on top, red on bottom */
+            }
+            .right-strip {
+                order: 1;
+            }
+            .content-plate {
+                width: 100%; /* Full width for content */
+                border-radius: 0; /* No rounded corners on small screens for main content */
+                padding: 1rem;
+            }
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .left-strip {
+                min-width: 1rem; /* Equivalent to 1 inch for visual styling */
+                width: 10%; /* Responsive width for side strips */
+                max-width: 3rem;
+            }
+            .right-strip {
+                min-width: 1rem; /* Equivalent to 1 inch for visual styling */
+                width: 10%; /* Responsive width for side strips */
+                max-width: 3rem;
+            }
+            .content-plate {
+                max-width: 70%; /* Limit central content width */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Top Banner -->
+    <header class="banner-gradient h-20 w-full flex items-center justify-between px-4 sm:px-8 shadow-lg">
+        <!-- Logo on left -->
+        <div class="flex items-center">
+            <!-- Placeholder for Logo - 1.5x3 inch equivalent -->
+            <img src="https://placehold.co/120x60/4CAF50/FFFFFF?text=EACR+Logo" alt="EACR Logo" class="h-12 w-24 rounded-lg mr-4">
+        </div>
+
+        <!-- Social Media Icons and User Account Link on right -->
+        <div class="flex items-center space-x-4">
+            <a href="https://wa.me/" target="_blank" class="text-white hover:text-gray-200 transition duration-300">
+                <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+            <a href="https://facebook.com/" target="_blank" class="text-white hover:text-gray-200 transition duration-300">
+                <i class="fab fa-facebook text-2xl"></i>
+            </a>
+            <a href="mailto:info@eacrservices.com" class="text-white hover:text-gray-200 transition duration-300">
+                <i class="fas fa-envelope text-2xl"></i>
+            </a>
+            <a href="#" class="text-white hover:text-gray-200 transition duration-300">
+                <i class="fas fa-map-marker-alt text-2xl"></i>
+            </a>
+            <a href="#" id="userAccountLink" class="text-white text-sm sm:text-base hover:text-gray-200 font-medium bg-red-600 px-3 py-1.5 rounded-full shadow transition duration-300">
+                User Account
+            </a>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md py-3 px-4 sm:px-8 flex flex-wrap justify-center items-center relative z-10">
+        <div class="nav-buttons-container flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-gray-700 font-medium">
+            <div class="nav-button">
+                <a href="#home" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="home">Home</a>
+            </div>
+
+            <div class="nav-button dropdown relative group">
+                <a href="#about-us" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200 flex items-center" data-page="about-us">
+                    About us <i class="fas fa-chevron-down text-xs ml-1 transition-transform group-hover:rotate-180"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#eacr-services" class="nav-item" data-page="eacr-services">EACR Services</a>
+                    <a href="#board-of-management" class="nav-item" data-page="board-of-management">Board of Management</a>
+                    <a href="#advisory-panel" class="nav-item" data-page="advisory-panel">Advisory Panel</a>
+                    <a href="#research-team" class="nav-item" data-page="research-team">Research Team</a>
+                    <a href="#support-staff" class="nav-item" data-page="support-staff">Support Staff</a>
+                </div>
+            </div>
+
+            <div class="nav-button dropdown relative group">
+                <a href="#services" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200 flex items-center" data-page="services">
+                    Services <i class="fas fa-chevron-down text-xs ml-1 transition-transform group-hover:rotate-180"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#service-monitoring-evaluation" class="nav-item" data-page="service-monitoring-evaluation">Monitoring and Evaluation</a>
+                    <a href="#service-governance" class="nav-item" data-page="service-governance">Governance, Human Rights & Social Justice Study</a>
+                    <a href="#service-agricultural" class="nav-item" data-page="service-agricultural">Agricultural Analysis</a>
+                    <a href="#service-environmental" class="nav-item" data-page="service-environmental">Environmental Analysis</a>
+                    <a href="#service-development-issues" class="nav-item" data-page="service-development-issues">Development Issues Analysis</a>
+                    <a href="#service-health-nutrition" class="nav-item" data-page="service-health-nutrition">Health and Nutrition Services</a>
+                    <a href="#service-rmg" class="nav-item" data-page="service-rmg">Study on RMG</a>
+                    <a href="#service-participatory-action" class="nav-item" data-page="service-participatory-action">Participatory & Action Research</a>
+                    <a href="#service-operational" class="nav-item" data-page="service-operational">Operational Research</a>
+                    <a href="#service-civil-works" class="nav-item" data-page="service-civil-works">Civil Works Analysis</a>
+                    <a href="#service-analytical" class="nav-item" data-page="service-analytical">Analytical Research</a>
+                </div>
+            </div>
+
+            <div class="nav-button">
+                <a href="#gallery" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="gallery">Gallery</a>
+            </div>
+            <div class="nav-button">
+                <a href="#projects" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="projects">Projects</a>
+            </div>
+            <div class="nav-button">
+                <a href="#training" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="training">Training</a>
+            </div>
+            <div class="nav-button">
+                <a href="#notice" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="notice">Notice</a>
+            </div>
+            <div class="nav-button">
+                <a href="#contact" class="nav-item px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200" data-page="contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content-area min-h-screen flex page-bg-gradient py-4 sm:py-8 px-0 sm:px-4">
+        <!-- Left Green Strip -->
+        <div class="left-strip bg-green-600 hidden sm:block"></div>
+
+        <!-- Central Content Plate -->
+        <div id="content-display" class="content-plate bg-white p-4 sm:p-8 flex-grow shadow-lg rounded-lg mx-2 sm:mx-4 relative">
+            <!-- Logo and Social media icons repeated at the top of content plate -->
+            <div class="flex justify-between items-center mb-4">
+                <img src="https://placehold.co/80x40/4CAF50/FFFFFF?text=EACR+Logo" alt="EACR Logo" class="h-10 w-20 rounded-md">
+                <div class="flex items-center space-x-3 text-gray-600">
+                    <a href="https://wa.me/" target="_blank" class="hover:text-green-600 transition duration-300">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="https://facebook.com/" target="_blank" class="hover:text-green-600 transition duration-300">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="mailto:info@eacrservices.com" class="hover:text-green-600 transition duration-300">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-green-600 transition duration-300">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <hr class="mb-6 border-gray-200">
+
+            <!-- Dynamic content will be loaded here -->
+            <div id="dynamic-content">
+                <!-- Home Page Content (Default) -->
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to EACR Services</h1>
+                <p class="text-gray-700 leading-relaxed">
+                    EACR Services is a leading organization dedicated to providing comprehensive research, analysis, and consulting services across various sectors. We specialize in delivering data-driven insights and innovative solutions to complex development challenges. Our expertise spans from rigorous monitoring and evaluation to in-depth studies on governance, human rights, environmental issues, and socio-economic development. We are committed to fostering sustainable growth and positive change through our dedicated team and cutting-edge methodologies.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Mission</h3>
+                        <p class="text-gray-600">To provide high-quality research and analytical services that contribute to informed decision-making and sustainable development.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Vision</h3>
+                        <p class="text-gray-600">To be a globally recognized leader in research and consulting, empowering organizations and communities for a better future.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Values</h3>
+                        <p class="text-gray-600">Integrity, Excellence, Collaboration, Innovation, and Impact.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Red Strip -->
+        <div class="right-strip bg-red-600 hidden sm:block"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-container bg-gray-800 text-white py-6 px-4 sm:px-8 flex flex-wrap justify-center items-center text-center shadow-inner">
+        <p class="text-sm">&copy; copyright reserved by EACR Services</p>
+    </footer>
+
+    <!-- CV Modal Structure -->
+    <div id="cvModal" class="cv-modal hidden">
+        <div class="cv-modal-content">
+            <span class="close-button" onclick="closeCvModal()">&times;</span>
+            <h2 id="cvModalTitle" class="text-2xl font-bold mb-4 text-gray-800"></h2>
+            <p id="cvModalText" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></p>
+        </div>
+    </div>
+
+    <!-- Service Detail Modal Structure -->
+    <div id="serviceDetailModal" class="cv-modal hidden">
+        <div class="cv-modal-content">
+            <span class="close-button" onclick="closeServiceDetailModal()">&times;</span>
+            <h2 id="serviceDetailTitle" class="text-2xl font-bold mb-4 text-gray-800"></h2>
+            <img id="serviceDetailImage" src="" alt="Service Image" class="w-full h-48 object-cover rounded-lg mb-4 hidden">
+            <p id="serviceDetailText" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></p>
+        </div>
+    </div>
+
+    <script>
+        // Data for About Us sections
+        const aboutUsData = {
+            'eacr-services': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">EACR Services Overview</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    EACR Services is a dynamic and innovative research and consulting firm dedicated to providing high-quality, evidence-based solutions to complex development challenges. Established with a vision to contribute significantly to sustainable development, we bring together a multidisciplinary team of experts with extensive experience in various fields.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Our core strength lies in our ability to conduct rigorous research, comprehensive analysis, and provide actionable recommendations tailored to the specific needs of our clients. We work with governments, non-governmental organizations (NGOs), international development partners, and private sector entities.
+                </p>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-3">Our Approach:</h3>
+                <ul class="list-disc list-inside text-gray-700 mb-4 pl-4">
+                    <li><b>Client-Centric:</b> We prioritize understanding our clients' unique challenges and goals to deliver customized solutions.</li>
+                    <li><b>Evidence-Based:</b> All our recommendations are grounded in robust data collection, thorough analysis, and proven methodologies.</li>
+                    <li><b>Innovation:</b> We continuously explore new tools, technologies, and approaches to enhance the quality and impact of our work.</li>
+                    <li><b>Collaboration:</b> We believe in fostering strong partnerships with clients, stakeholders, and local communities to achieve shared objectives.</li>
+                    <li><b>Sustainability:</b> Our solutions are designed to be sustainable, promoting long-term positive change and capacity building.</li>
+                </ul>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-3">Key Areas of Expertise:</h3>
+                <p class="text-gray-700 leading-relaxed">
+                    Our expertise covers a broad spectrum of development issues, including but not limited to: Monitoring and Evaluation (M&E), Governance and Human Rights, Agricultural and Environmental Analysis, Health and Nutrition, Education, Livelihoods, and Gender Equality. We are committed to fostering a world where development interventions are effective, equitable, and sustainable.
+                </p>
+            `,
+            'board-of-management': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Board of Management</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/FF7F50/FFFFFF?text=Member+1" alt="Board Member 1" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-john-doe">John Doe</a></h3>
+                        <p class="text-gray-600 mb-2">Chairman</p>
+                        <p class="text-sm text-gray-500">Expert in Strategic Planning</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/FFD700/FFFFFF?text=Member+2" alt="Board Member 2" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-jane-smith">Jane Smith</a></h3>
+                        <p class="text-gray-600 mb-2">CEO</p>
+                        <p class="text-sm text-gray-500">Visionary Leader in Development</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/6495ED/FFFFFF?text=Member+3" alt="Board Member 3" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-peter-jones">Peter Jones</a></h3>
+                        <p class="text-gray-600 mb-2">Treasurer</p>
+                        <p class="text-sm text-gray-500">Financial Management Expert</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/ADFF2F/FFFFFF?text=Member+4" alt="Board Member 4" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-sara-davis">Sara Davis</a></h3>
+                        <p class="text-gray-600 mb-2">Board Member</p>
+                        <p class="text-sm text-gray-500">Legal and Governance Specialist</p>
+                    </div>
+                </div>
+            `,
+            'advisory-panel': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Advisory Panel</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/FFC0CB/FFFFFF?text=Advisor+1" alt="Advisor 1" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-dr-amin">Dr. Amin Khan</a></h3>
+                        <p class="text-gray-600 mb-2">Lead Advisor, Public Health</p>
+                        <p class="text-sm text-gray-500">Internationally recognized health expert.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/ADD8E6/FFFFFF?text=Advisor+2" alt="Advisor 2" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-prof-li">Prof. Mei Li</a></h3>
+                        <p class="text-gray-600 mb-2">Advisor, Environmental Science</p>
+                        <p class="text-sm text-gray-500">Specialist in climate change and sustainability.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/DA70D6/FFFFFF?text=Advisor+3" alt="Advisor 3" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-mr-patel">Mr. Raj Patel</a></h3>
+                        <p class="text-gray-600 mb-2">Advisor, Economic Development</p>
+                        <p class="text-sm text-gray-500">Veteran in economic policy and research.</p>
+                    </div>
+                </div>
+            `,
+            'research-team': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Research Team</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/FFB6C1/FFFFFF?text=Researcher+1" alt="Researcher 1" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-ali-hassan">Ali Hassan</a></h3>
+                        <p class="text-gray-600 mb-2">Senior Researcher, M&E</p>
+                        <p class="text-sm text-gray-500">Specializes in qualitative research.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/DDA0DD/FFFFFF?text=Researcher+2" alt="Researcher 2" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-maria-gonzalez">Maria Gonzalez</a></h3>
+                        <p class="text-gray-600 mb-2">Researcher, Social Justice</p>
+                        <p class="text-sm text-gray-500">Focuses on human rights and equity studies.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/B0E0E6/FFFFFF?text=Researcher+3" alt="Researcher 3" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-samuel-lee">Samuel Lee</a></h3>
+                        <p class="text-gray-600 mb-2">Data Analyst</p>
+                        <p class="text-sm text-gray-500">Expert in statistical analysis and data visualization.</p>
+                    </div>
+                </div>
+            `,
+            'support-staff': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Support Staff</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/98FB98/FFFFFF?text=Staff+1" alt="Staff 1" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-fatima-ahmed">Fatima Ahmed</a></h3>
+                        <p class="text-gray-600 mb-2">Administrative Manager</p>
+                        <p class="text-sm text-gray-500">Ensures smooth office operations.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/150x150/EE82EE/FFFFFF?text=Staff+2" alt="Staff 2" class="w-32 h-32 rounded-full object-cover mb-4 shadow-sm">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-1"><a href="#" class="member-name text-green-600 hover:underline" data-cv="cv-david-kim">David Kim</a></h3>
+                        <p class="text-gray-600 mb-2">IT Support Specialist</p>
+                        <p class="text-sm text-gray-500">Manages all technical infrastructure.</p>
+                    </div>
+                </div>
+            `,
+            // CV Data
+            'cv-john-doe': `
+                <h3>CV of John Doe</h3>
+                <p><strong>Designation:</strong> Chairman</p>
+                <p>John Doe is a distinguished leader with over 25 years of experience in strategic planning and organizational development. He has held numerous high-level positions in both public and private sectors, driving growth and innovation. His expertise lies in governance, policy formulation, and large-scale project management. John holds an MBA from Harvard Business School and a PhD in Economics from the University of Cambridge.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Led the strategic overhaul of a major development agency, increasing program efficiency by 30%.</li>
+                    <li>Authored several influential papers on sustainable economic models.</li>
+                    <li>Successfully managed multi-million dollar international development projects.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>PhD in Economics, University of Cambridge</li>
+                    <li>MBA, Harvard Business School</li>
+                </ul>
+            `,
+            'cv-jane-smith': `
+                <h3>CV of Jane Smith</h3>
+                <p><strong>Designation:</strong> CEO</p>
+                <p>Jane Smith is a visionary CEO with a passion for sustainable development and social impact. With 20 years of experience in leading non-profit organizations and international development agencies, she has a proven track record of building effective teams and implementing impactful programs. Jane is known for her innovative approaches to community engagement and her commitment to fostering equitable societies.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Grew a grassroots organization into a nationally recognized entity.</li>
+                    <li>Secured significant grants from major international donors.</li>
+                    <li>Pioneered new models for youth empowerment programs.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>Master's in International Development, London School of Economics</li>
+                    <li>B.A. in Sociology, University of California, Berkeley</li>
+                </ul>
+            `,
+            'cv-peter-jones': `
+                <h3>CV of Peter Jones</h3>
+                <p><strong>Designation:</strong> Treasurer</p>
+                <p>Peter Jones is a seasoned financial expert with over 30 years of experience in financial management, auditing, and fiscal policy. He brings a wealth of knowledge in ensuring financial integrity and transparency for large organizations. Peter's meticulous approach to financial planning and risk management has been instrumental in the success of numerous initiatives.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Implemented robust financial control systems saving millions in operational costs.</li>
+                    <li>Successfully navigated complex audits for multi-national organizations.</li>
+                    <li>Provided strategic financial advice that led to significant organizational growth.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>Certified Public Accountant (CPA)</li>
+                    <li>M.S. in Finance, Wharton School of the University of Pennsylvania</li>
+                </ul>
+            `,
+            'cv-sara-davis': `
+                <h3>CV of Sara Davis</h3>
+                <p><strong>Designation:</strong> Board Member</p>
+                <p>Sara Davis is a distinguished legal and governance specialist with over 22 years of experience in international law and human rights. Her expertise is critical in ensuring EACR Services operates within the highest ethical and legal standards. Sara has advised numerous international bodies on policy development and legal frameworks related to humanitarian aid and development.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Drafted key legal frameworks for international human rights organizations.</li>
+                    <li>Successfully litigated landmark cases concerning civil liberties.</li>
+                    <li>Lectured extensively on international law and governance at leading universities.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>J.D., Yale Law School</li>
+                    <li>B.A. in Political Science, Stanford University</li>
+                </ul>
+            `,
+            'cv-dr-amin': `
+                <h3>CV of Dr. Amin Khan</h3>
+                <p><strong>Designation:</strong> Lead Advisor, Public Health</p>
+                <p>Dr. Amin Khan is a globally recognized public health expert with over 30 years of experience in epidemiology, disease prevention, and health policy. His work has significantly contributed to global health initiatives, particularly in infectious disease control and maternal and child health. Dr. Khan frequently consults for WHO and UNICEF.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Led national vaccination campaigns that eradicated several diseases.</li>
+                    <li>Published over 100 peer-reviewed articles in top medical journals.</li>
+                    <li>Instrumental in developing public health policies adopted by several governments.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>MD, Dhaka Medical College</li>
+                    <li>Master of Public Health (MPH), Johns Hopkins University</li>
+                </ul>
+            `,
+            'cv-prof-li': `
+                <h3>CV of Prof. Mei Li</h3>
+                <p><strong>Designation:</strong> Advisor, Environmental Science</p>
+                <p>Prof. Mei Li is a leading environmental scientist specializing in climate change, sustainable resource management, and ecological restoration. With over 25 years in academia and research, she provides critical insights into environmental policy and climate action. Her innovative research has influenced international environmental agreements.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Developed novel methods for carbon sequestration in agricultural lands.</li>
+                    <li>Advised the UN Environmental Programme on sustainable development goals.</li>
+                    <li>Recipient of the prestigious 'Green Planet Award' for environmental advocacy.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>PhD in Environmental Science, University of Oxford</li>
+                    <li>M.S. in Ecology, Peking University</li>
+                </ul>
+            `,
+            'cv-mr-patel': `
+                <h3>CV of Mr. Raj Patel</h3>
+                <p><strong>Designation:</strong> Advisor, Economic Development</p>
+                <p>Mr. Raj Patel is a veteran in economic policy and development, with a career spanning 35 years across governmental and international financial institutions. He has played a pivotal role in shaping economic reforms and fostering inclusive growth in developing countries. His pragmatic approach to economic challenges makes him a highly sought-after advisor.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Led the design and implementation of national poverty reduction strategies.</li>
+                    <li>Negotiated international trade agreements beneficial to emerging economies.</li>
+                    <li>Authored seminal books on development economics and poverty alleviation.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>M.A. in Economics, London School of Economics</li>
+                    <li>B.A. in Economics, University of Mumbai</li>
+                </ul>
+            `,
+            'cv-ali-hassan': `
+                <h3>CV of Ali Hassan</h3>
+                <p><strong>Designation:</strong> Senior Researcher, M&E</p>
+                <p>Ali Hassan is a seasoned Senior Researcher specializing in Monitoring and Evaluation (M&E) with 15 years of experience in designing and implementing M&E frameworks for complex development projects. He is highly skilled in both quantitative and qualitative research methodologies, ensuring robust data collection and analysis.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Developed M&E systems for multi-country health programs.</li>
+                    <li>Conducted numerous impact assessments leading to program improvements.</li>
+                    <li>Expert in data visualization and reporting to diverse stakeholders.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>M.Sc. in Development Studies, University of Manchester</li>
+                    <li>B.S. in Statistics, University of Dhaka</li>
+                </ul>
+            `,
+            'cv-maria-gonzalez': `
+                <h3>CV of Maria Gonzalez</h3>
+                <p><strong>Designation:</strong> Researcher, Social Justice</p>
+                <p>Maria Gonzalez is a dedicated researcher focused on human rights and social justice. With a background in law and sociology, she brings a unique interdisciplinary approach to her studies, particularly on issues of gender equality, minority rights, and access to justice. Maria is passionate about advocating for marginalized communities.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Published research on the socio-legal aspects of gender-based violence.</li>
+                    <li>Contributed to policy briefs for international human rights organizations.</li>
+                    <li>Active advocate for indigenous rights in Latin America.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>Ph.D. in Sociology, University of Oxford</li>
+                    <li>J.D., National Autonomous University of Mexico</li>
+                </ul>
+            `,
+            'cv-samuel-lee': `
+                <h3>CV of Samuel Lee</h3>
+                <p><strong>Designation:</strong> Data Analyst</p>
+                <p>Samuel Lee is an accomplished Data Analyst with a strong background in statistical modeling, machine learning, and data visualization. He is adept at transforming raw data into actionable insights, supporting evidence-based decision-making for development programs. Samuel is proficient in Python, R, and various data analysis tools.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Developed predictive models for agricultural yield forecasting.</li>
+                    <li>Automated data processing pipelines, reducing analysis time by 50%.</li>
+                    <li>Presented data-driven insights to executive leadership.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>M.S. in Data Science, New York University</li>
+                    <li>B.S. in Mathematics, Seoul National University</li>
+                </ul>
+            `,
+            'cv-fatima-ahmed': `
+                <h3>CV of Fatima Ahmed</h3>
+                <p><strong>Designation:</strong> Administrative Manager</p>
+                <p>Fatima Ahmed is a highly organized and efficient Administrative Manager with over 18 years of experience in office management, human resources, and logistical support. She plays a crucial role in ensuring the smooth and effective operation of EACR Services, managing day-to-day administrative tasks and supporting the team.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Streamlined office procedures, improving overall efficiency.</li>
+                    <li>Managed logistics for numerous international conferences and workshops.</li>
+                    <li>Implemented new HR systems for staff onboarding and development.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>B.A. in Business Administration, University of London</li>
+                </ul>
+            `,
+            'cv-david-kim': `
+                <h3>CV of David Kim</h3>
+                <p><strong>Designation:</strong> IT Support Specialist</p>
+                <p>David Kim is a dedicated IT Support Specialist responsible for maintaining and enhancing EACR Services' technological infrastructure. With expertise in network administration, cybersecurity, and software support, he ensures that all team members have the necessary tools and support to perform their work effectively and securely.</p>
+                <p><strong>Key Achievements:</strong></p>
+                <ul>
+                    <li>Implemented robust cybersecurity measures, protecting sensitive data.</li>
+                    <li>Developed and maintained the organization's internal network systems.</li>
+                    <li>Provided timely technical support, minimizing downtime.</li>
+                </ul>
+                <p><strong>Education:</strong></p>
+                <ul>
+                    <li>B.S. in Computer Science, National University of Singapore</li>
+                    <li>Certified in Network Security (CompTIA Security+)</li>
+                </ul>
+            `
+        };
+
+        const servicesData = {
+            'service-monitoring-evaluation': {
+                title: 'Monitoring and Evaluation',
+                image: 'https://placehold.co/400x250/2563EB/FFFFFF?text=M%26E',
+                description: `
+                    EACR Services offers comprehensive Monitoring and Evaluation (M&E) services designed to help organizations assess the effectiveness, efficiency, and impact of their programs and projects. Our M&E frameworks are tailored to specific needs, ensuring that data is systematically collected, analyzed, and used for informed decision-making and continuous improvement. We utilize a range of methodologies, including baseline surveys, mid-term reviews, end-line evaluations, and impact assessments. Our goal is to provide actionable insights that strengthen program design, implementation, and accountability. We emphasize participatory approaches to M&E, engaging stakeholders at every stage to foster ownership and sustainability.
+                `
+            },
+            'service-governance': {
+                title: 'Governance, Human Rights & Social Justice Study',
+                image: 'https://placehold.co/400x250/9D174D/FFFFFF?text=Governance+Study',
+                description: `
+                    Our expertise in Governance, Human Rights & Social Justice Studies focuses on analyzing institutional frameworks, policy effectiveness, and the protection of fundamental rights. We conduct in-depth research into democratic governance, accountability mechanisms, rule of law, and citizen participation. Furthermore, we explore issues of social equity, discrimination, and marginalization, advocating for policies and practices that promote inclusive societies. Our studies aim to identify gaps and propose reforms that strengthen good governance, uphold human rights, and advance social justice for all.
+                `
+            },
+            'service-agricultural': {
+                title: 'Agricultural Analysis',
+                image: 'https://placehold.co/400x250/065F46/FFFFFF?text=Agricultural+Analysis',
+                description: `
+                    EACR Services provides specialized Agricultural Analysis to support sustainable food systems and rural development. Our work includes value chain analysis, market studies, climate-smart agriculture assessments, and policy analysis related to food security and agricultural productivity. We examine agricultural practices, technological adoption, and socio-economic factors influencing farming communities. Our insights help stakeholders, from farmers to policymakers, make informed decisions to enhance agricultural resilience, improve livelihoods, and ensure food security.
+                `
+            },
+            'service-environmental': {
+                title: 'Environmental Analysis',
+                image: 'https://placehold.co/400x250/047857/FFFFFF?text=Environmental+Analysis',
+                description: `
+                    Our Environmental Analysis services address critical ecological and sustainability challenges. We conduct environmental impact assessments (EIAs), strategic environmental assessments (SEAs), climate vulnerability assessments, and natural resource management studies. Our team assesses the environmental consequences of development projects and policies, providing recommendations for mitigation and adaptation strategies. We are committed to promoting environmental conservation, biodiversity protection, and sustainable resource use through rigorous scientific analysis and policy advocacy.
+                `
+            },
+            'service-development-issues': {
+                title: 'Development Issues Analysis',
+                image: 'https://placehold.co/400x250/16A34A/FFFFFF?text=Development+Issues',
+                description: `
+                    EACR Services conducts comprehensive Development Issues Analysis, delving into the multifaceted challenges faced by developing societies. This includes research on poverty reduction, education, health, gender equality, and urban development. We apply interdisciplinary approaches to understand the root causes of underdevelopment and identify innovative solutions. Our analysis informs policy formulation, program design, and strategic interventions aimed at achieving inclusive and sustainable development outcomes.
+                `
+            },
+            'service-health-nutrition': {
+                title: 'Health and Nutrition Services',
+                image: 'https://placehold.co/400x250/DC2626/FFFFFF?text=Health+%26+Nutrition',
+                description: `
+                    Our Health and Nutrition Services encompass research, program evaluation, and policy advisory in public health, maternal and child health, communicable and non-communicable diseases, and nutritional security. We analyze health systems, accessibility of services, and community health practices. Our goal is to contribute to improved health outcomes by providing evidence-based recommendations for strengthening health systems, promoting healthy behaviors, and addressing nutritional deficiencies, particularly among vulnerable populations.
+                `
+            },
+            'service-rmg': {
+                title: 'Study on RMG (Ready-Made Garments)',
+                image: 'https://placehold.co/400x250/C2410C/FFFFFF?text=RMG+Study',
+                description: `
+                    EACR Services conducts in-depth studies on the Ready-Made Garments (RMG) sector, focusing on various aspects such as labor rights, working conditions, supply chain sustainability, and economic impact. We analyze market trends, regulatory frameworks, and social compliance issues within the RMG industry. Our research aims to identify challenges and propose solutions that foster a more ethical, sustainable, and competitive RMG sector, benefiting both workers and the economy.
+                `
+            },
+            'service-participatory-action': {
+                title: 'Participatory & Action Research',
+                image: 'https://placehold.co/400x250/DB2777/FFFFFF?text=Participatory+Research',
+                description: `
+                    We specialize in Participatory and Action Research, methodologies that actively involve communities and stakeholders in the research process. This approach ensures that research questions are relevant to local contexts and that findings are directly applicable and actionable. By empowering communities to identify their own challenges and solutions, we facilitate sustainable change and strengthen local capacities for self-development and problem-solving.
+                `
+            },
+            'service-operational': {
+                title: 'Operational Research',
+                image: 'https://placehold.co/400x250/6D28D9/FFFFFF?text=Operational+Research',
+                description: `
+                    EACR Services conducts Operational Research to optimize processes, improve efficiency, and enhance decision-making within organizations and programs. We apply analytical methods and modeling techniques to complex operational challenges, such as resource allocation, logistics, and service delivery. Our research helps identify bottlenecks, streamline operations, and develop evidence-based strategies for maximizing effectiveness and achieving organizational objectives.
+                `
+            },
+            'service-civil-works': {
+                title: 'Civil Works Analysis',
+                image: 'https://placehold.co/400x250/374151/FFFFFF?text=Civil+Works+Analysis',
+                description: `
+                    Our Civil Works Analysis services provide expert assessment and evaluation of infrastructure projects. This includes feasibility studies, cost-benefit analysis, environmental and social impact assessments related to civil engineering projects, and post-construction evaluations. We analyze the technical, economic, and social viability of infrastructure developments, ensuring they are sustainable, resilient, and meet the needs of the communities they serve.
+                `
+            },
+            'service-analytical': {
+                title: 'Analytical Research',
+                image: 'https://placehold.co/400x250/4B5563/FFFFFF?text=Analytical+Research',
+                description: `
+                    EACR Services excels in Analytical Research, providing in-depth analysis of complex data sets and trends to uncover critical insights. We utilize advanced statistical methods, qualitative analysis techniques, and data visualization tools to transform raw information into meaningful knowledge. Our analytical research supports strategic planning, policy formulation, and evidence-based interventions across a wide range of sectors, enabling clients to make informed and impactful decisions.
+                `
+            },
+            'gallery': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Gallery</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <img src="https://placehold.co/300x200/FCA5A5/FFFFFF?text=Project+1" alt="Gallery Image 1" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x200/FDBA74/FFFFFF?text=Event+2" alt="Gallery Image 2" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x200/BEF264/FFFFFF?text=Team+3" alt="Gallery Image 3" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x200/93C5FD/FFFFFF?text=Workshop+4" alt="Gallery Image 4" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x200/A78BFA/FFFFFF?text=Fieldwork+5" alt="Gallery Image 5" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="https://placehold.co/300x200/FBCFE8/FFFFFF?text=Community+6" alt="Gallery Image 6" class="w-full h-auto rounded-lg shadow-md">
+                </div>
+            `,
+            'projects': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Projects</h2>
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Project: Sustainable Agriculture Initiative (2023-2025)</h3>
+                        <p class="text-gray-700 leading-relaxed mb-3">
+                            This project aims to enhance food security and improve livelihoods for smallholder farmers through the adoption of climate-resilient agricultural practices and improved market linkages. We are working with 500 farming households across three districts, providing training on sustainable farming techniques, access to improved seeds, and facilitating connections to buyers.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Status:</strong> Ongoing | <strong>Location:</strong> Rural Communities</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Project: Urban Youth Empowerment Program (2022-2024)</h3>
+                        <p class="text-gray-700 leading-relaxed mb-3">
+                            Focusing on skill development and entrepreneurship, this program targets unemployed youth in urban slums. We provide vocational training, business mentorship, and micro-finance support to help them establish small businesses or gain formal employment. The goal is to reduce youth unemployment and foster economic independence.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Status:</strong> Ongoing | <strong>Location:</strong> Urban Centers</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Project: Rural Health Access Improvement (Completed 2022)</h3>
+                        <p class="text-gray-700 leading-relaxed mb-3">
+                            This completed project successfully improved access to primary healthcare services in remote rural areas by establishing mobile health clinics and training community health workers. It significantly reduced infant mortality rates and increased access to essential medicines.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Status:</strong> Completed | <strong>Location:</strong> Remote Villages</p>
+                    </div>
+                </div>
+            `,
+            'training': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Training Programs</h2>
+                <p class="text-gray-700 leading-relaxed mb-6">
+                    EACR Services offers a range of capacity-building and professional development training programs tailored for government officials, NGO staff, researchers, and community leaders. Our training modules are designed to enhance skills in research methodologies, project management, M&E, governance, and specialized sectoral analysis.
+                </p>
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Advanced Monitoring & Evaluation (M&E)</h3>
+                        <p class="text-gray-700 mb-3">
+                            A comprehensive training covering logical frameworks, indicator development, data collection techniques, qualitative and quantitative analysis, and reporting for effective M&E.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Duration:</strong> 5 Days | <strong>Target Audience:</strong> M&E Professionals, Program Managers</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Human Rights-Based Approach to Development</h3>
+                        <p class="text-gray-700 mb-3">
+                            This training introduces participants to the principles and practical application of a human rights-based approach in development programming and policy.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Duration:</strong> 3 Days | <strong>Target Audience:</strong> Development Practitioners, Activists</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Climate Change Adaptation & Resilience</h3>
+                        <p class="text-gray-700 mb-3">
+                            Focuses on understanding climate change impacts and developing strategies for adaptation and building community resilience.
+                        </p>
+                        <p class="text-sm text-gray-600"><strong>Duration:</strong> 4 Days | <strong>Target Audience:</strong> Environmental Specialists, Policymakers</p>
+                    </div>
+                </div>
+            `,
+            'notice': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Notices & Announcements</h2>
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-md shadow-sm">
+                        <h3 class="font-semibold text-lg mb-1">Vacancy Announcement: Research Associate</h3>
+                        <p class="text-sm text-gray-700 mb-2">Posted on: June 20, 2025</p>
+                        <p>EACR Services is seeking a highly motivated Research Associate to join our growing team. Candidates should have a Master's degree in Social Sciences, Economics, or a related field, with at least 2 years of research experience. Please <a href="#" class="text-blue-600 hover:underline">click here</a> for more details and to apply.</p>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 text-green-800 p-4 rounded-md shadow-sm">
+                        <h3 class="font-semibold text-lg mb-1">Upcoming Workshop: Data Analysis for Development</h3>
+                        <p class="text-sm text-gray-700 mb-2">Posted on: June 15, 2025</p>
+                        <p>Join our upcoming workshop on 'Data Analysis for Development Professionals' from July 10-12, 2025. Learn practical skills in quantitative and qualitative data analysis. <a href="#" class="text-green-600 hover:underline">Register now</a>!</p>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md shadow-sm">
+                        <h3 class="font-semibold text-lg mb-1">Holiday Notice: Eid Al-Adha</h3>
+                        <p class="text-sm text-gray-700 mb-2">Posted on: June 10, 2025</p>
+                        <p>Our offices will be closed from July 1st to July 3rd, 2025, for the Eid Al-Adha holiday. We will resume regular operations on July 4th, 2025.</p>
+                    </div>
+                </div>
+            `,
+            'contact': `
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Contact Us</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            We'd love to hear from you! Whether you have a question, need a consultation, or want to explore partnership opportunities, please don't hesitate to reach out.
+                        </p>
+                        <div class="space-y-3">
+                            <p class="flex items-center text-gray-700"><i class="fas fa-map-marker-alt text-green-600 mr-3"></i> 123 Research Lane, Knowledge City, Country</p>
+                            <p class="flex items-center text-gray-700"><i class="fas fa-envelope text-green-600 mr-3"></i> info@eacrservices.com</p>
+                            <p class="flex items-center text-gray-700"><i class="fas fa-phone-alt text-green-600 mr-3"></i> +123 456 7890</p>
+                            <p class="flex items-center text-gray-700"><i class="fab fa-whatsapp text-green-600 mr-3"></i> +123 456 7890</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Send us a Message</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                                <input type="text" id="name" name="name" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" placeholder="Your Name">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="email" name="email" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" placeholder="Your Email">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
+                                <textarea id="message" name="message" rows="5" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" placeholder="Your Message"></textarea>
+                            </div>
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            `
+        };
+
+        const dynamicContentDiv = document.getElementById('dynamic-content');
+        const cvModal = document.getElementById('cvModal');
+        const cvModalTitle = document.getElementById('cvModalTitle');
+        const cvModalText = document.getElementById('cvModalText');
+        const serviceDetailModal = document.getElementById('serviceDetailModal');
+        const serviceDetailTitle = document.getElementById('serviceDetailTitle');
+        const serviceDetailImage = document.getElementById('serviceDetailImage');
+        const serviceDetailText = document.getElementById('serviceDetailText');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        // Function to update active navigation item styling
+        function updateActiveNavItem(activePageId) {
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            const activeItem = document.querySelector(`.nav-item[data-page="${activePageId}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+            }
+        }
+
+        // Function to load content based on pageId
+        function loadContent(pageId) {
+            let content = '';
+
+            // Handle About Us and Services content from their respective data objects
+            if (aboutUsData[pageId]) {
+                content = aboutUsData[pageId];
+            } else if (servicesData[pageId]) {
+                // For services pages, we will display a list of clickable topics
+                const service = servicesData[pageId];
+                content = `
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">${service.title}</h2>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6 cursor-pointer bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+                         data-service-topic="${pageId}">
+                        <img src="${service.image}" alt="${service.title}" class="w-full md:w-1/2 h-auto rounded-lg mb-4 md:mb-0">
+                        <div class="md:w-1/2">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">${service.title} Overview</h3>
+                            <p class="text-gray-700 leading-relaxed">${service.description.substring(0, 200)}...</p>
+                            <button class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-300">Read More</button>
+                        </div>
+                    </div>
+                `;
+            } else if (pageId === 'home') {
+                content = `
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to EACR Services</h1>
+                    <p class="text-gray-700 leading-relaxed">
+                        EACR Services is a leading organization dedicated to providing comprehensive research, analysis, and consulting services across various sectors. We specialize in delivering data-driven insights and innovative solutions to complex development challenges. Our expertise spans from rigorous monitoring and evaluation to in-depth studies on governance, human rights, environmental issues, and socio-economic development. We are committed to fostering sustainable growth and positive change through our dedicated team and cutting-edge methodologies.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Mission</h3>
+                            <p class="text-gray-600">To provide high-quality research and analytical services that contribute to informed decision-making and sustainable development.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Vision</h3>
+                            <p class="text-gray-600">To be a globally recognized leader in research and consulting, empowering organizations and communities for a better future.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Our Values</h3>
+                            <p class="text-gray-600">Integrity, Excellence, Collaboration, Innovation, and Impact.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (pageId === 'gallery') {
+                 content = servicesData['gallery']; // Reusing the 'servicesData' for general content
+            } else if (pageId === 'projects') {
+                content = servicesData['projects'];
+            } else if (pageId === 'training') {
+                content = servicesData['training'];
+            } else if (pageId === 'notice') {
+                content = servicesData['notice'];
+            } else if (pageId === 'contact') {
+                content = servicesData['contact'];
+            } else {
+                content = `<h2 class="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h2><p class="text-gray-700">The content for "${pageId}" is not available yet.</p>`;
+            }
+
+            dynamicContentDiv.innerHTML = content;
+            updateActiveNavItem(pageId); // Update active class for the navigation button
+
+            // Add event listeners for CV links if present
+            const memberNames = dynamicContentDiv.querySelectorAll('.member-name');
+            memberNames.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const cvId = e.target.dataset.cv;
+                    showCvModal(cvId);
+                });
+            });
+
+            // Add event listeners for service topic clicks
+            const serviceTopicCards = dynamicContentDiv.querySelectorAll('[data-service-topic]');
+            serviceTopicCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Prevent propagation if click is on a child element that might have its own click handler
+                    if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+                    const topicId = card.dataset.serviceTopic;
+                    showServiceDetailModal(topicId);
+                });
+            });
+        }
+
+        // Show CV Modal
+        function showCvModal(cvId) {
+            const cvContent = aboutUsData[cvId];
+            if (cvContent) {
+                // Extract title from the first h3 tag in CV content
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = cvContent;
+                const titleElement = tempDiv.querySelector('h3');
+                cvModalTitle.textContent = titleElement ? titleElement.textContent : 'Curriculum Vitae';
+
+                // Remove the title from the content to avoid duplication
+                if (titleElement) titleElement.remove();
+                cvModalText.innerHTML = tempDiv.innerHTML;
+                cvModal.classList.remove('hidden');
+            } else {
+                cvModalTitle.textContent = 'CV Not Found';
+                cvModalText.textContent = 'The CV for this member is not available.';
+                cvModal.classList.remove('hidden');
+            }
+        }
+
+        // Close CV Modal
+        function closeCvModal() {
+            cvModal.classList.add('hidden');
+        }
+
+        // Show Service Detail Modal
+        function showServiceDetailModal(topicId) {
+            const service = servicesData[topicId];
+            if (service) {
+                serviceDetailTitle.textContent = service.title;
+                serviceDetailImage.src = service.image;
+                serviceDetailImage.classList.remove('hidden'); // Show image
+                serviceDetailText.innerHTML = service.description;
+                serviceDetailModal.classList.remove('hidden');
+            } else {
+                serviceDetailTitle.textContent = 'Service Details Not Found';
+                serviceDetailImage.classList.add('hidden'); // Hide image
+                serviceDetailText.textContent = 'Details for this service are not available.';
+                serviceDetailModal.classList.remove('hidden');
+            }
+        }
+
+        // Close Service Detail Modal
+        function closeServiceDetailModal() {
+            serviceDetailModal.classList.add('hidden');
+        }
+
+        // Event listener for navigation clicks
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const pageId = e.target.dataset.page;
+                    if (pageId) {
+                        e.preventDefault(); // Prevent default link behavior if data-page is present
+                        loadContent(pageId);
+                    }
+                });
+            });
+
+            // Load home content by default or based on hash
+            if (window.location.hash) {
+                loadContent(window.location.hash.substring(1));
+            } else {
+                loadContent('home');
+            }
+        });
+
+        // Close modals if clicked outside content
+        window.addEventListener('click', (event) => {
+            if (event.target === cvModal) {
+                closeCvModal();
+            }
+            if (event.target === serviceDetailModal) {
+                closeServiceDetailModal();
+            }
+        });
+
+        // Add a simple logic for user account link - can be expanded later
+        document.getElementById('userAccountLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            loadContent('user-account-page'); // Load a placeholder user account page
+        });
+
+        // Add placeholder content for 'user-account-page' if needed
+        aboutUsData['user-account-page'] = `
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">User Account Page</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Welcome to your user account dashboard. This section is under development.
+                Here you will find your profile details, project statuses, and other personalized information.
+            </p>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg text-blue-800">
+                <p>Please check back later for more features!</p>
+            </div>
+        `;
+    </script>
+</body>
+</html>

@@ -166,7 +166,7 @@
         <!-- Logo on left -->
         <div class="flex items-center">
             <!-- Placeholder for Logo - 1.5x3 inch equivalent -->
-            <img src="https://placehold.co/120x60/4CAF50/FFFFFF?text=EACR+Logo" alt="EACR Logo" class="h-12 w-24 rounded-lg mr-4">
+            <img src="your-logo-name.png" alt="eacr-logo.png" class="h-12 w-24 rounded-lg mr-4">
         </div>
 
         <!-- Social Media Icons and User Account Link on right -->
@@ -255,7 +255,7 @@
         <div id="content-display" class="content-plate bg-white p-4 sm:p-8 flex-grow shadow-lg rounded-lg mx-2 sm:mx-4 relative">
             <!-- Logo and Social media icons repeated at the top of content plate -->
             <div class="flex justify-between items-center mb-4">
-                <img src="https://placehold.co/80x40/4CAF50/FFFFFF?text=EACR+Logo" alt="EACR Logo" class="h-10 w-20 rounded-md">
+                <img src="https://placehold.co/80x40/4CAF50/FFFFFF?text=EACR+Logo" alt="eacr-logo.png" class="h-10 w-20 rounded-md">
                 <div class="flex items-center space-x-3 text-gray-600">
                     <a href="https://wa.me/" target="_blank" class="hover:text-green-600 transition duration-300">
                         <i class="fab fa-whatsapp text-xl"></i>
@@ -866,6 +866,8 @@
             } else if (servicesData[pageId]) {
                 // For services pages, we will display a list of clickable topics
                 const service = servicesData[pageId];
+                // Added a check for service.description before calling substring
+                const descriptionPreview = service.description ? service.description.substring(0, 200) + '...' : 'No description available.';
                 content = `
                     <h2 class="text-3xl font-bold text-gray-800 mb-6">${service.title}</h2>
                     <div class="flex flex-col md:flex-row items-center justify-center gap-6 cursor-pointer bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
@@ -873,7 +875,7 @@
                         <img src="${service.image}" alt="${service.title}" class="w-full md:w-1/2 h-auto rounded-lg mb-4 md:mb-0">
                         <div class="md:w-1/2">
                             <h3 class="text-xl font-semibold text-gray-800 mb-2">${service.title} Overview</h3>
-                            <p class="text-gray-700 leading-relaxed">${service.description.substring(0, 200)}...</p>
+                            <p class="text-gray-700 leading-relaxed">${descriptionPreview}</p>
                             <button class="mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-300">Read More</button>
                         </div>
                     </div>
